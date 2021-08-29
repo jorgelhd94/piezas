@@ -1,0 +1,144 @@
+{{extend 'layout_ela.html'}}
+
+{{block head}}
+<link rel="stylesheet" href="{{=URL('static','vendor/layout_ela/css/lib/sweetalert/sweetalert.css')}}">
+<link rel="stylesheet" href="{{=URL('static','vendor/datepicker/bootstrap-datepicker.standalone.min.css')}}"/>
+
+<style>
+    h2 {
+        margin-bottom: 2px !important;
+    }
+</style>
+{{end head}}
+
+<div class="card" id="container">
+
+
+    <h2>{{=T("Realizar Venta de Pieza")}}</h2>
+    <hr>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-2"><b>Detalles de Pieza</b></div>
+                <div class="row">
+                    <span class="mr-2 col-md-3">Codigo:</span><span class="col-md-8">{{=pieza.codigo}}</span>
+                </div>
+                <div class="row">
+                    <span class="mr-2 col-md-3">Nombre:</span><span class="col-md-8">{{=pieza.nombre}}</span>
+                </div>
+                <div class="row">
+                    <span class="mr-2 col-md-3">Descripción:</span><span
+                        class="col-md-8">{{=pieza.descripcion}}</span>
+                </div>
+                <div class="row">
+                    <span class="mr-2 col-md-3">Cantidad Disponible:</span><span
+                        class="col-md-8">[[cantidad_virtual]]</span>
+                </div>
+                <div class="row">
+                    <span class="mr-2 col-md-3">Unidad:</span><span class="col-md-8">{{=pieza.unidad}}</span>
+                </div>
+                <div class="row">
+                    <span class="mr-2 col-md-3">Precio de Entrada:</span><span
+                        class="col-md-8">{{=pieza.precio_entrada}}</span>
+                </div>
+                <div class="row">
+                    <span class="mr-2 col-md-3">Precio de Salida:</span><span
+                        class="col-md-8">{{=pieza.precio_salida}}</span>
+                </div>
+                <div class="row">
+                    <span class="mr-2 col-md-3">Fecha de Entrada:</span><span class="col-md-8">[[formatFecha()]]</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+
+                <div class="mb-2"><b>Detalles de Venta</b></div>
+
+                <form v-on:submit.prevent="ejecutarSalida()">
+                    <div class="row">
+                        <span class="mr-2 col-md-3 pt-2">Fecha de Salida:</span>
+                        <div class="col-md-3" style="padding-left: 0%!important;">
+
+                            <input type="text" id="fecha" class="form-control" placeholder="dd/mm/aaaa">[[informacionPieza.fecha_salida]]</input>
+
+                        </div>
+
+                        <div class="mr-2 col-md-5 pt-2">
+                            <span class="pt-2" v-show="fechaVacia">
+                                <i class="fa fa-info-circle text-danger"></i>
+                                La fecha no es válida <br> </span>
+                            <span class="pt-2" v-show="fechaError">
+                                <i class="fa fa-info-circle text-danger"></i>
+                                La fecha debe ser mayor o igual a [[formatFecha()]]</span>
+                        </div>
+
+                    </div>
+                    <div class="row mt-2">
+                        <span class="mr-2 col-md-3 pt-2">Cantidad a Vender:</span>
+                        <div class="col-md-3" style="padding-left: 0%!important;">
+                            <input v-model="cantidad_seleccionada" class="form-control" type="number"
+                                   min="1" :max="informacionPieza.cantidad">
+                            <span class="pt-1" style="color: red;" v-if="cantidadError">La cantidad no es válida</span>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <span class="mr-2 col-md-3 pt-2">Nuevo precio de salida:</span>
+                        <div class="col-md-3" style="padding-left: 0%!important;">
+                            <input v-model="precio_nuevo" class="form-control" type="number" step="0.01"
+                                   min="0">
+                            <span v-if="precio_nuevo > 0"><i
+                                class="fa fa-info-circle text-info" ></i> Usar la coma(,) como separador</span>
+                        </div>
+                        <span class="mr-2 col-md-5 pt-2" v-if="precio_nuevo > 0"><i
+                                class="fa fa-info-circle text-danger"></i> Este precio sustituye al predeterminado si es mayor a 0</span>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <span class="mr-2 col-md-3"><b>Monto Total:</b></span>
+                        <span class="col-md-8" style="color: green;"><b>$ [[montoTotal]]</b></span>
+                    </div>
+                    <br>
+                    <button class="btn btn-primary">Confirmar</button>
+                    <a class="btn btn-danger" href="{{=URL('seleccionar_pieza')}}">Atrás</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{block page_js}}
+
+<script>
+    const urlService = "{{=URL('venta', 'apiVenta')}}";
+    const urlRedirigir = "{{=URL('venta', 'administrar')}}";
+    const id_js = "{{=id_seleccionada}}";
+    const pieza = {
+        id: "{{=pieza.id}}",
+        fecha_entrada: "{{=pieza.fecha_entrada}}",
+        cantidad: parseInt("{{=pieza.cantidad}}"),
+        precio_salida: parseFloat("{{=pieza.precio_salida}}"),
+        total: 0,
+    }
+</script>
+
+<!-- Vue
+    ============================================ -->
+<script src="{{=URL('static','vendor/vue/axios/axios.js')}}"></script>
+<script src="{{=URL('static','vendor/vue/vue.js')}}"></script>
+<script src="{{=URL('static','vendor/vue/venta/venta.js')}}"></script>
+
+<!-- Datepicker
+    ============================================ -->
+<script src="{{=URL('static','vendor/datepicker/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datepicker/datepicker_init.js')}}"></script>
+
+<!-- Sweetalert
+============================================ -->
+<script src="{{=URL('static','vendor/layout_ela/js/lib/sweetalert/sweetalert.min.js')}}"></script>
+
+{{end page_js}}

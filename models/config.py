@@ -1,0 +1,2 @@
+config_general = dict(sortable=False, deletable=False, editable=False, details=False, paginate=False, searchable=False,
+                  csv=False, user_signature=False, create=False, maxtextlength=100)

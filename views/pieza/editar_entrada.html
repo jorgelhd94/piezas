@@ -1,0 +1,76 @@
+{{extend 'layout_ela.html'}}
+
+{{block head}}
+<link rel="stylesheet" href="{{=URL('static','vendor/layout_ela/css/lib/sweetalert/sweetalert.css')}}">
+<link rel="stylesheet" href="{{=URL('static','vendor/datepicker/bootstrap-datepicker.standalone.min.css')}}"/>
+
+<style>
+    h2 {
+        margin-bottom: 2px !important;
+    }
+</style>
+{{end head}}
+
+<div class="card" id="container">
+
+    <h2>{{=T("Editar entrada")}}</h2>
+    <hr>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-5">
+            {{=form_entrada}}
+            </div>
+
+
+            <!-- {{=request.vars}} -->
+
+            <div class="col-md-7"><b>Detalles de venta</b>
+                <div class="row mb-1">
+                    <span class="mr-2 col-md-3">Codigo:</span><span class="col-md-8">{{=pieza_entrada.codigo}}</span>
+                </div>
+                <div class="row mb-1">
+                    <span class="mr-2 col-md-3">Nombre:</span><span class="col-md-8">{{=pieza_entrada.nombre}}</span>
+                </div>
+                <div class="row mb-1">
+                    <span class="mr-2 col-md-3">Descripción:</span><span
+                        class="col-md-8">{{=pieza_entrada.descripcion}}</span>
+                </div>
+                <div class="row mb-1">
+                    <span class="mr-2 col-md-3">Cantidad Entrada:</span><span
+                        class="col-md-8">{{=pieza_entrada.cantidad}}</span>
+                </div>
+                <div class="row mb-1">
+                    <span class="mr-2 col-md-3">Unidad:</span><span class="col-md-8">{{=pieza_entrada.unidad}}</span>
+                </div>
+                <div class="row mb-1">
+                    <span class="mr-2 col-md-3">Precio de Entrada:</span><span
+                        class="col-md-8">{{=pieza_entrada.precio_entrada}}</span>
+                </div>
+                <div class="row mb-1">
+                    <span class="mr-2 col-md-3">Precio de Salida:</span><span
+                        class="col-md-8">{{=pieza_entrada.precio_salida}}</span>
+                </div>
+                <div class="row mb-1">
+                    <span class="mr-2 col-md-3">Fecha de Entrada:</span><span
+                        class="col-md-8">{{=__format_fecha(pieza_entrada.fecha_entrada)}}</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{{block page_js}}
+<script src="{{=URL('static','vendor/datepicker/bootstrap-datepicker.min.js')}}"></script>
+
+<script>
+    jQuery(document).ready(function () {
+        jQuery('#fecha').datepicker({
+            format: "dd/mm/yyyy",
+            language: "es",
+        });
+    });
+</script>
+{{end page_js}}

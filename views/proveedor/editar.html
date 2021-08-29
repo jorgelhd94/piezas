@@ -1,0 +1,22 @@
+{{extend 'layout_ela.html'}}
+
+{{block header}}
+<style>
+h2{
+    margin-bottom: 1px!important;
+}
+</style>
+{{end header}}
+
+<div class="card" id="container">
+    <h2>{{=T("Editar proveedor")}}</h2>
+    <hr>
+    
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                {{=form}}
+            </div>
+        </div>
+    </div>
+</div>

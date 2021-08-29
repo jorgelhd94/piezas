@@ -1,0 +1,425 @@
+<?extend 'layout_ela_vue.html'?>
+
+<?block head?>
+<link rel="stylesheet" href="<?=URL('static','vendor/datepicker/bootstrap-datepicker.standalone.min.css')?>"/>
+<link rel="stylesheet" href="<?=URL('static','vendor/modals/css/modals.css')?>"/>
+<link rel="stylesheet" href="<?=URL('static','vendor/layout_ela/css/lib/sweetalert/sweetalert.css')?>">
+
+
+<?end head?>
+
+<?block page_js?>
+
+<script>
+    // const urlService = "<?=URL('unidad', 'api')?>";
+    const urlVerificarCodigo = "<?=URL('pieza', 'verificarCodigo')?>";
+    const urlPieza = "<?=URL('pieza', 'api')?>";
+    const urlProveedores = "<?=URL('proveedor', 'api')?>";
+    const redirigir = "<?=URL('default', 'index')?>";
+    const redirigirAdmin = "<?=URL('pieza', 'administrar')?>";
+    const swalInputError = "<?=T('No puede ser vacío')?>";
+</script>
+
+<!-- Vue
+    ============================================ -->
+<script src="<?=URL('static','vendor/vue/axios/axios.js')?>"></script>
+<script src="<?=URL('static','vendor/vue/vue.js')?>"></script>
+<script src="<?=URL('static','vendor/vue/veevalidate/vee-validate.min.js')?>"></script>
+<script src="<?=URL('static','vendor/vue/veevalidate/rules.umd.min.js')?>"></script>
+<script src="<?=URL('static','vendor/vue/pieza/crear.js')?>"></script>
+
+<!-- Datatable
+    ============================================ -->
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/datatables.min.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js')?>"></script>
+
+
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/datatables-init.js')?>"></script>
+
+<script>
+    $('#example23').DataTable({
+
+        dom: 'lfrtip',
+        ordering: false,
+        language: {
+            "decimal": "",
+            "emptyTable": "<?=T('No hay información')?>",
+            "info": "<?=T('Mostrando _START_ a _END_ de _TOTAL_ Entradas')?>",
+            "infoEmpty": "<?=T('Mostrando 0 to 0 of 0 Entradas')?>",
+            "infoFiltered": "<?=T('(Filtrado de _MAX_ total entradas)')?>",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "<?=T('Mostrar _MENU_ Entradas')?>",
+            "loadingRecords": "<?=T('Cargando...')?>",
+            "processing": "<?=T('Procesando...')?>",
+            "search": "<?=T('Buscar:')?>",
+            "zeroRecords": "<?=T('Sin resultados encontrados')?>",
+            "paginate": {
+                "first": "<?=T('Primero')?>",
+                "last": "<?=T('Último')?>",
+                "next": "<?=T('Siguiente')?>",
+                "previous": "<?=T('Anterior')?>"
+            }
+
+        }
+    });
+
+    $('#selectProveedor').DataTable({
+
+        dom: 'lfrtip',
+        ordering: false,
+        language: {
+            "decimal": "",
+            "emptyTable": "<?=T('No hay información')?>",
+            "info": "<?=T('Mostrando _START_ a _END_ de _TOTAL_ Entradas')?>",
+            "infoEmpty": "<?=T('Mostrando 0 to 0 of 0 Entradas')?>",
+            "infoFiltered": "<?=T('(Filtrado de _MAX_ total entradas)')?>",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "<?=T('Mostrar _MENU_ Entradas')?>",
+            "loadingRecords": "<?=T('Cargando...')?>",
+            "processing": "<?=T('Procesando...')?>",
+            "search": "<?=T('Buscar:')?>",
+            "zeroRecords": "<?=T('Sin resultados encontrados')?>",
+            "paginate": {
+                "first": "<?=T('Primero')?>",
+                "last": "<?=T('Último')?>",
+                "next": "<?=T('Siguiente')?>",
+                "previous": "<?=T('Anterior')?>"
+            }
+
+        }
+    });
+
+    $('table').addClass('display nowrap table table-hover table-striped table-bordered');
+</script>
+
+<!-- Datepicker
+    ============================================ -->
+<script src="<?=URL('static','vendor/datepicker/bootstrap-datepicker.min.js')?>"></script>
+<script src="<?=URL('static','vendor/datepicker/datepicker_init.js')?>"></script>
+
+<!-- Modals
+    ============================================ -->
+<script src="<?=URL('static','vendor/modals/js/modal-active.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/bootstrap/js/3/bootstrap.min.js')?>"></script>
+
+
+<!-- Sweetalert
+============================================ -->
+<script src="<?=URL('static','vendor/layout_ela/js/lib/sweetalert/sweetalert.min.js')?>"></script>
+
+
+<?end page_js}?>
+
+
+<div class="card" id="container">
+
+    <h2><?=T("Añadir pieza")?></h2>
+    <h3 v-if="mostrar_pag_1"><?=T("Paso 1. Rellene el formulario")?></h3><h3 v-else><?=T("Paso 2. Añadir proveedores")?></h3>
+    <hr/>  
+     
+    <div class="card-body" style="padding-left: 10px; padding-right: 10px">    
+    
+        
+        <div v-show="mostrar_pag_1">
+            <validation-observer ref="observer" v-slot="{ invalid }">
+            <!--Datos generales-->
+            <div class="row p-t-20">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label"><?=T('Código')?> <span class="text-danger">*</span></label>
+
+                        <validation-provider name="Código" vid="codigo" rules="required" v-slot="{ errors, classes }">
+                            <input v-model.lazy="codigo" type="text" class="form-control" :class="{'classes': true, 'invalid': codigoError}"/>
+                            <div class="error">{{ errors[0] }}</div>
+                            <div class="error" v-if="codigoError"><?=T("El código ya está registrado")?></div>
+                        </validation-provider>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                            <label class="control-label"><?=T('Nombre')?> <span class="text-danger">*</span></label>
+                            
+                        <validation-provider name="Nombre" vid="nombre" rules="required" v-slot="{ errors, classes }">
+                            <input v-model.lazy="nombre" type="text" class="form-control" :class="classes"/>
+                            <div class="error">{{ errors[0] }}</div>
+                        </validation-provider>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label"><?=T('Descripción')?></label>
+                        <textarea class="form-control" v-model="descripcion"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label"><?=T('Fecha entrada')?> <span class="text-danger">*</span></label>
+                        <input type="text" id="fecha" class="form-control" placeholder="dd/mm/aaaa" @focus="verifyFecha()" :class="{'invalid': fechaError, 'valid': fechaValid}"/>
+                        <div v-if="fechaError" class="error"><?=T("El campo Fecha no es válido")?></div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label"><?=T('Cantidad')?> <span class="text-danger">*</span></label>                   
+
+                        <validation-provider name="Cantidad" vid="cantidad" rules="required|min_value:1|numeric" v-slot="{ errors, classes }">
+                            <input v-model.lazy="cantidad" type="number" min="0" value="0" class="form-control" :class="classes"/>
+                            <div class="error">{{ errors[0] }}</div>
+                        </validation-provider>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label"><?=T('Unidad')?> <span class="text-danger">*</span></label>
+
+                        
+                        <validation-provider name="Unidad" vid="unidad" rules="required|min_value:1|numeric" v-slot="{ errors, classes }">
+                            <input v-model.lazy="unidad" type="number" min="0" value="0" class="form-control" :class="classes"/>
+                            <div class="error">{{ errors[0] }}</div>
+                        </validation-provider>
+                           
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label"><?=T('Precio entrada')?> <span class="text-danger">*</span></label>
+                        
+                        <validation-provider name="Precio entrada" vid="precioIn" :rules="{required:true, regex: /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/}" v-slot="{ errors, classes }">
+                            <input v-model.lazy="precioIn" value="0.00" type="text" class="form-control" :class="classes"/>
+                            <div class="error">{{ errors[0] }}</div>
+                        </validation-provider>
+                        
+                        
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label"><?=T('Precio salida')?> <span class="text-danger">*</span></label>
+                        
+                        <validation-provider name="Precio salida" vid="precioOut" :rules="{required:true, regex: /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/}" v-slot="{ errors, classes }">
+                            <input v-model.lazy="precioOut" value="0.00" type="text" class="form-control" :class="classes"/>
+                            <div class="error">{{ errors[0] }}</div>
+                        </validation-provider>
+                    </div>
+                </div>
+            </div>       
+
+            <!--Botones submit-->
+            <div class="form-actions right">
+                <button type="button" class="btn btn-inverse" @click="ir_admin()"><?=T("Cancelar")?></button>
+                <button type="button" @click="save_pieza()"  class="btn btn-primary"></i> <?=T("Siguiente")?></button>
+            </div>
+
+            </validation-observer>
+        </div>
+    
+
+    
+        <div v-show="!mostrar_pag_1">
+            <!--Proveedores-->
+            <!-- <h3 class="m-t-15"><?=T("Proveedores")?></h3>
+            <hr> -->
+            <button type="button" class="btn btn-info" style="margin-top: 5px" data-toggle="modal" data-target="#PrimaryModal"><i
+                    class="fa fa-plus"></i> <?=T("Crear proveedor")?></button>
+
+            <button v-show="proveedores_api.length > 0" type="button" class="btn btn-primary" style="margin-top: 5px" data-toggle="modal" data-target="#SeleccionarProveedor">
+                <i class="fa fa-check-square"></i> <?=T("Seleccionar proveedor")?></button>
+            
+            <div  v-show="proveedores[0].id != 0">
+                <div class="table-responsive" style="margin: 20px 0px 20px">
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0"
+                        width="100%">
+                        <thead>
+                        <tr>
+                            <th><?=T("Nombre")?></th>
+                            <th><?=T("Descripción")?></th>
+                            <th><?=T("Dirección")?></th>
+                            <th><?=T("Teléfono")?></th>
+                            <th><?=T("Operaciones")?></th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th><?=T("Nombre")?></th>
+                            <th><?=T("Descripción")?></th>
+                            <th><?=T("Dirección")?></th>
+                            <th><?=T("Teléfono")?></th>
+                            <th><?=T("Operaciones")?></th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <tr v-for="(item, index) in proveedores">
+                            <td>{{item.nombre}}</td>
+                            <td>{{item.descripcion}}</td>
+                            <td>{{item.direccion}}</td>
+                            <td>{{item.telefono}}</td>
+                            <td>
+                                <button class="btn btn-danger" @click="quitarProveedor(index)"><i class="fa fa-times"></i> <?=T("Quitar")?></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div v-show="proveedores[0].id == 0" style="margin: 20px 0px 20px"><h2><?=T("No se han añadido proveedores.")?></h2></div>
+
+            <!--Modal Annadir proveedor-->
+            <div id="PrimaryModal" class="modal modal-adminpro-general default-popup-PrimaryModal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-close-area modal-close-df">
+                            <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                        </div>
+
+                        <validation-observer ref="proveedorForm" v-slot="{ invalid }">
+                            <div class="modal-body">
+                                <i class="fa fa-male modal-check-pro"></i>
+
+                                <h2><?=T("Crear proveedor")?></h2>
+                                <br/>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label><?=T('Nombre')?> <span
+                                                    class="text-danger">*</span></label>
+                                            <validation-provider name="Nombre" vid="nombre_proveedor" rules="required" v-slot="{ errors, classes }">
+                                                <input v-model.lazy="proveedor_data.nombre" type="text" class="form-control" :class="classes"/>
+                                                <div class="error">{{ errors[0] }}</div>
+                                            </validation-provider>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label"><?=T('Descripción')?> </label>
+                                            <input type="text" v-model.lazy="proveedor_data.descripcion" class="form-control"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label"><?=T('Dirección')?></label>
+                                            <input type="text" v-model.lazy="proveedor_data.direccion" class="form-control"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label"><?=T('Teléfono')?></label>
+                                            <input type="text" v-model.lazy="proveedor_data.telefono" class="form-control"/>                                        
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <a class="btn btn-inverse" data-dismiss="modal" href="#"><?=T('Cancelar')?></a>
+                                <a class="btn btn-primary" @click="createProveedor()" href="#"><?=T('Añadir')?></a>
+                            </div>
+                        </validation-observer>
+                    </div>
+                </div>
+            </div>
+
+            <!--Modal Seleccionar proveedor-->
+            <div id="SeleccionarProveedor" class="modal modal-adminpro-general default-popup-PrimaryModal fade"
+                role="dialog">
+                <div class="modal-dialog modal-dialog-size">
+                    <div class="modal-content">
+                        <div class="modal-close-area modal-close-df">
+                            <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                        </div>
+                        <div class="modal-body">
+                            <i class="fa fa-male modal-check-pro"></i>
+
+                            <h2><?=T("Seleccionar proveedor")?></h2>
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table id="selectProveedor"
+                                            class="display nowrap table table-hover table-striped table-bordered"
+                                            cellspacing="0"
+                                            width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th><?=T("Nombre")?></th>
+                                                <th><?=T("Descripción")?></th>
+                                                <th><?=T("Dirección")?></th>
+                                                <th><?=T("Teléfono")?></th>
+                                                <th><?=T("Operaciones")?></th>
+                                            </tr>
+                                            </thead>
+                                            <tfoot>
+                                            <tr>
+                                                <th><?=T("Nombre")?></th>
+                                                <th><?=T("Descripción")?></th>
+                                                <th><?=T("Dirección")?></th>
+                                                <th><?=T("Teléfono")?></th>
+                                                <th><?=T("Operaciones")?></th>
+                                            </tr>
+                                            </tfoot>
+                                            <tbody>
+                                            
+
+                                            <tr v-for="item in proveedores_api">
+                                                <td>{{item.nombre}}</td>
+                                                <td>{{item.descripcion}}</td>
+                                                <td>{{item.direccion}}</td>
+                                                <td>{{item.telefono}}</td>
+                                                <td>
+                                                    <button class="btn btn-info" @click="seleccionarProveedor(item)"><i
+                                                            class="fa fa-check-square"></i> <?=T("Seleccionar")?></button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-inverse" data-dismiss="modal" href="#"><?=T('Cerrar')?></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Botones submit-->
+            <div class="form-actions right">
+                <button type="button" class="btn btn-inverse" @click="ir_admin()"><?=T("Cancelar")?></button>
+                <button type="button" class="btn btn-info" @click="mostrar_pag_1 = true"><?=T("Anterior")?></button>
+                <button type="button" class="btn btn-primary" @click="create_data()"><i class="fa fa-check"></i> <?=T("Guardar")?></button>
+            </div>
+
+        </div>
+        
+    </div>   
+</div>

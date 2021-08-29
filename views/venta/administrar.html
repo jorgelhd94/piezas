@@ -1,0 +1,165 @@
+{{extend 'layout_ela.html'}}
+
+{{block header}}
+<link rel="stylesheet" href="{{=URL('static','vendor/layout_ela/css/lib/sweetalert/sweetalert.css')}}">
+
+<style>
+    h2 {
+        margin-bottom: 2px !important;
+    }
+
+    form {
+        display: inline-flex !important;
+    }
+</style>
+{{end header}}
+
+
+<div class="card" id="container">
+
+    <h2>{{=T("Administrar ventas")}}</h2>
+    <hr>
+
+    <div class="card-body">
+        <a class="btn btn-info" href="{{=URL('venta', 'seleccionar_pieza')}}"><span
+                class="fa fa-plus"></span> {{=T("Realizar venta")}}</a>
+
+        <div class="row">
+            <div class="col-md-4">
+                <br>
+                <h3>Buscar por año</h3>
+            {{=form}}
+                <br>
+            </div>
+            <div class="col-md-12">
+            {{=grid}}
+            </div>
+        </div>
+    </div>
+</div>
+
+{{block page_js}}
+<script src="{{=URL('static','vendor/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/dataTables.buttons.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/jszip.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/pdfmake.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/vfs_fonts.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/buttons.html5.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/buttons.colVis.min.js')}}"></script>
+
+<!-- Sweetalert
+============================================ -->
+<script src="{{=URL('static','vendor/layout_ela/js/lib/sweetalert/sweetalert.min.js')}}"></script>
+
+<script src="{{=URL('static', 'vendor/datatables_moment/moment.js')}}"></script>
+<script src="{{=URL('static', 'vendor/datatables_moment/moment.dataTables.js')}}"></script>
+
+
+<script>
+
+    $.fn.dataTable.moment('DD/MM/YYYY');
+    $('table').DataTable({
+        dom: 'lfrtiBp',
+        order: [[0, "desc"]],
+        // columnDefs: [
+        //     {
+        //         "targets": [8 ],
+        //         "visible": false,
+        //         "searchable": false
+        //     }           
+        // ],
+        buttons: [
+
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: 'Listado de ventas',
+                filename: 'Ventas',
+                pageSize: 'LETTER',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4]
+                },
+                customize: function (doc) {
+                    doc.content[1].table.widths = [
+                        '20%',
+                        '20%',
+                        '20%',
+                        '20%',
+                        '20%'
+                    ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: 'Listado de ventas',
+                filename: 'Ventas',
+            },
+
+        ],
+        language: {
+            "decimal": "",
+            "emptyTable": "{{=T('No hay información')}}",
+            "info": "{{=T('Mostrando _START_ a _END_ de _TOTAL_ Entradas')}}",
+            "infoEmpty": "{{=T('Mostrando 0 to 0 of 0 Entradas')}}",
+            "infoFiltered": "{{=T('(Filtrado de _MAX_ total entradas)')}}",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "{{=T('Mostrar _MENU_ Entradas')}}",
+            "loadingRecords": "{{=T('Cargando...')}}",
+            "processing": "{{=T('Procesando...')}}",
+            "search": "{{=T('Buscar:')}}",
+            "zeroRecords": "{{=T('Sin resultados encontrados')}}",
+            "paginate": {
+                "first": "{{=T('Primero')}}",
+                "last": "{{=T('Último')}}",
+                "next": "{{=T('Siguiente')}}",
+                "previous": "{{=T('Anterior')}}"
+            }
+        }
+
+
+    });
+    $('table').addClass('display nowrap table table-hover table-striped table-bordered');
+</script>
+
+<script>
+    function confirmDelete(id) {
+        swal({
+                    title: "¿Está seguro de eliminar?",
+                    text: "La venta será eliminada completamente del sistema.",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Eliminar",
+                    cancelButtonText: "Cancelar",
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        var url = "{{=URL('eliminar')}}";
+
+                        swal({
+                                    title: "Eliminada",
+                                    text: "La venta ha sido eliminada correctamente",
+                                    type: "success",
+                                    showCancelButton: false,
+                                    cancelButtonText: "Cancelar",
+                                    closeOnConfirm: true,
+                                    allowEscapeKey: false,
+                                }
+                                , function () {
+                                    location.href = url + "/" + id;
+                                });
+                    } else {
+                        // event.preventDefault();
+                        //swal("Cancelled !!", "Hey, your imaginary file is safe !!", "error");
+                    }
+                });
+
+
+    }
+
+</script>
+{{end page_js}}

@@ -1,0 +1,223 @@
+body {
+    font-size: 18px !important;
+}
+
+.header {
+    background: #ef5350 !important;
+}
+
+.header .top-navbar .navbar-header {
+    background: #ef5350 !important;
+}
+
+.form-control {
+    font-size: 1.2rem;
+}
+
+select.form-control:not([size]):not([multiple]) {
+    height: auto;
+}
+
+.input-group-btn {
+    margin-left: 2px !important;
+}
+
+.footer {
+    position: fixed !important;
+    background-color: #ef5350;
+    margin: 0;
+
+}
+
+.mini-sidebar .footer {
+    left: 0px !important;
+}
+
+.footer > .copyright {
+    color: white;
+
+}
+
+tbody tr td {
+    font-family: 'Poppins', sans-serif !important;
+    color: rgba(0, 0, 0, 0.69) !important;
+    text-align: left !important;
+    vertical-align: middle !important;
+}
+
+th {
+    text-align: left !important;
+}
+
+.logo {
+    width: 250px;
+    margin: auto !important;
+    padding-bottom: 30px;
+    padding-top: 20px;
+}
+
+.contenedor-logo {
+    text-align: center;
+}
+
+.submit > input {
+    background-color: #309f4f;
+    background: #309f4f !important;
+}
+
+.submit > input:hover {
+    background-color: #5c9f4f;
+    box-shadow: 0 0 0 .2rem rgba(8, 159, 16, 0.45) !important;
+}
+
+.submit > input.focus, .submit > input:focus {
+    box-shadow: 0 0 0 .2rem #5c9f4f !important;
+}
+
+.login-form {
+    padding: 15px 30px 20px !important;
+}
+
+.sidebar-nav > ul > li > a:hover {
+    color: #ef5350 !important;
+}
+
+.sidebar-nav > ul > li > a:hover i {
+    color: #ef5350 !important;
+}
+
+ul > li > a:hover {
+    color: #ef5350 !important;
+}
+
+.text-muted {
+    color: #fff !important;
+}
+
+.text-muted:hover {
+    color: #f8ff15 !important;
+}
+
+/*modal*/
+.modal-dialog-size {
+	 max-width: none!important;
+}
+
+.modal-dialog {
+	top: 10%!important;
+}
+
+.modal-content {
+	position: fixed!important;
+	/* display: -webkit-box; */
+	/* display: -ms-flexbox; */
+}
+
+.modal-header .close {
+    padding: 0 !important;
+    /*margin: -1rem -1rem -1rem auto;*/
+}
+
+.modal-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    color: white !important;
+}
+
+.modal-adminpro-general .modal-body .row {
+    text-align: left !important;
+}
+
+.modal-area-button a.default::before, .modal-footer a::before, .modal-area-button a.fullwidth::before, .modal-area-button a.Customwidth::before, .modal-area-button a.FullColor::before, .modal-area-button a.Primary::before, .modal-area-button a.Information::before, .modal-area-button a.Warning::before, .modal-area-button a.Danger::before, .modal-area-button a.Alert::before, .modal-area-button a.bounce::before, .modal-area-button a.flash::before, .modal-area-button a.pulse::before, .modal-area-button a.rubberBand::before, .modal-area-button a.shake::before, .modal-area-button a.swing::before, .modal-area-button a.tada::before, .modal-area-button a.wobble::before, .modal-area-button a.jello::before, .modal-area-button a.bounceIn::before, .modal-area-button a.bounceInDown::before, .modal-area-button a.bounceInLeft::before, .modal-area-button a.bounceInRight::before, .modal-area-button a.bounceInUp::before, .modal-area-button a.bounceOut::before, .modal-area-button a.fadeIn::before, .modal-area-button a.fadeInDown::before, .modal-area-button a.fadeInDownBig::before, .modal-area-button a.fadeInLeft::before, .modal-area-button a.fadeInLeftBig::before, .modal-area-button a.fadeInRight::before, .modal-area-button a.fadeInUp::before, .modal-area-button a.flip::before, .modal-area-button a.flipInX::before, .modal-area-button a.flipInY::before, .modal-area-button a.lightSpeedIn::before, .modal-area-button a.rotateIn::before, .modal-area-button a.rotateInDownLeft::before, .modal-area-button a.rotateInDownRight::before, .modal-area-button a.rotateInUpLeft::before, .modal-area-button a.rotateInUpRight::before, .modal-area-button a.hinge::before, .modal-area-button a.rollIn::before, .modal-area-button a.zoomIn::before, .modal-area-button a.zoomInDown::before, .modal-area-button a.zoomInLeft::before, .modal-area-button a.zoomInRight::before, .modal-area-button a.zoomInUp::before, .modal-area-button a.slideInDown::before, .modal-area-button a.slideInLeft::before, .modal-area-button a.slideInRight::before, .modal-area-button a.slideInUp::before {
+    background: none !important;
+
+}
+
+
+.modal-area-button a.default::after, .modal-footer a::after, .modal-area-button a.fullwidth::after, .modal-area-button a.Customwidth::after, .modal-area-button a.FullColor::after, .modal-area-button a.Primary::after, .modal-area-button a.Information::after, .modal-area-button a.Warning::after, .modal-area-button a.Danger::after, .modal-area-button a.Alert::after, .modal-area-button a.bounce::after, .modal-area-button a.flash::after, .modal-area-button a.pulse::after, .modal-area-button a.rubberBand::after, .modal-area-button a.shake::after, .modal-area-button a.swing::after, .modal-area-button a.tada::after, .modal-area-button a.wobble::after, .modal-area-button a.jello::after, .modal-area-button a.bounceIn::after, .modal-area-button a.bounceInDown::after, .modal-area-button a.bounceInLeft::after, .modal-area-button a.bounceInRight::after, .modal-area-button a.bounceInUp::after, .modal-area-button a.bounceOut::after, .modal-area-button a.fadeIn::after, .modal-area-button a.fadeInDown::after, .modal-area-button a.fadeInDownBig::after, .modal-area-button a.fadeInLeft::after, .modal-area-button a.fadeInLeftBig::after, .modal-area-button a.fadeInRight::after, .modal-area-button a.fadeInUp::after, .modal-area-button a.flip::after, .modal-area-button a.flipInX::after, .modal-area-button a.flipInY::after, .modal-area-button a.lightSpeedIn::after, .modal-area-button a.rotateIn::after, .modal-area-button a.rotateInDownLeft::after, .modal-area-button a.rotateInDownRight::after, .modal-area-button a.rotateInUpLeft::after, .modal-area-button a.rotateInUpRight::after, .modal-area-button a.hinge::after, .modal-area-button a.rollIn::after, .modal-area-button a.zoomIn::after, .modal-area-button a.zoomInDown::after, .modal-area-button a.zoomInLeft::after, .modal-area-button a.zoomInRight::after, .modal-area-button a.zoomInUp::after, .modal-area-button a.slideInDown::after, .modal-area-button a.slideInLeft::after, .modal-area-button a.slideInRight::after, .modal-area-button a.slideInUp::after {
+    background: none!important;
+    z-index: 0!important;
+}
+
+/*----Datatables----*/
+    #DataTables_Table_0_paginate, #DataTables_Table_0_info, .dataTables_info, .dataTables_paginate {
+        padding: 20px !important;
+    }
+
+    table {
+        width: 100% !important;
+    }
+/*--------*/
+
+
+/*-Errors-*/
+.error{
+    display: block!important;
+}
+
+
+input.invalid {
+    border: solid 1px #ef5350;
+}
+  
+input.valid {
+border: solid 1px #26dad2;
+}
+
+
+select.invalid {
+border: solid 1px #ef5350;
+}
+
+select.valid {
+border: solid 1px #26dad2;
+}
+
+.size{
+    width: 100%!important;
+}
+
+.btn-inline{
+    display: inline-flex;
+}
+
+.btn-inline > a{
+    margin: 2px!important;
+}
+
+h2{
+    margin-bottom: 2px!important;
+}
+
+h3{
+    margin-top: 3px!important;
+    margin-bottom: 2px!important;
+}
+
+.toast-info{
+    background-color: #1976d2!important;
+    opacity: 1!important;
+}
+
+.toast-error{
+    background-color: #da1717!important;
+    opacity: 1!important;
+}
+/*-*/
+
+/*.submit>input.disabled, .submit>input:disabled {*/
+/*color: #fff;*/
+/*background-color: #007bff;*/
+/*border-color: #007bff*/
+/*}*/
+
+/*.submit>input:not(:disabled):not(.disabled).active, .submit>input:not(:disabled):not(.disabled):active, .show > .submit>input.dropdown-toggle {*/
+/*color: #fff;*/
+/*background-color: #0062cc;*/
+/*border-color: #005cbf*/
+/*}*/
+
+/*.submit>input:not(:disabled):not(.disabled).active:focus, .submit>input:not(:disabled):not(.disabled):active:focus, .show > .submit>input.dropdown-toggle:focus {*/
+
+/*}*/
+

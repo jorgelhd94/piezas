@@ -1,0 +1,570 @@
+{{extend 'layout_ela.html'}}
+
+{{block header}}
+<link rel="stylesheet" href="{{=URL('static','vendor/layout_ela/css/lib/sweetalert/sweetalert.css')}}">
+<style>
+    .detalles {
+        padding-bottom: 20px;
+    }
+
+
+    .proveedores {
+        padding: 0px 2px !important;
+    }
+
+    .pad-2 {
+        padding: 0px 2px !important;
+    }
+
+    #DataTables_Table_0_wrapper {
+        margin: 15px !important;
+    }
+</style>
+{{end block}}
+
+<div class="mt-3 mb-3">
+    <a class="btn btn-danger" style="margin-bottom: 8px!important;" href="{{=URL('pieza', 'administrar')}}"><i
+            class="ti-arrow-circle-left"></i>{{=T(" Atrás")}}</a>
+</div>
+
+<div class="card" id="container">
+
+
+    <h3>{{=T("Detalles de la pieza")}}</h3>
+    <hr style="margin-top: 0%!important;">
+    <div class="card-body">
+        <div class="row detalles">
+            <div class="col-md-12">
+                <div class="row m-2">
+                    <div class="row col-md-2">
+                        <span><b>Código:</b></span>
+                    </div>
+                    <div class="row col-md-10">
+                        <span>{{=pieza.codigo}}</span>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="row col-md-2">
+                        <span><b>Nombre:</b></span>
+                    </div>
+                    <div class="row col-md-10">
+                        <span>{{=pieza.nombre}}</span>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="row col-md-2">
+                        <span><b>Descripción:</b></span>
+                    </div>
+                    <div class="row col-md-10">
+                        <span>{{=pieza.descripcion}}</span>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="row col-md-2">
+                        <span><b>Fecha entrada:</b></span>
+                    </div>
+                    <div class="row col-md-10">
+                        <span>{{=__format_fecha(pieza.fecha_entrada)}}</span>
+                    </div>
+                </div>
+                <div class="row m-2 ">
+                    <div class="row col-md-2">
+                        <span><b>Cantidad:</b></span>
+                    </div>
+                    <div class="row col-md-10">
+                        <span>{{=pieza.cantidad}}</span>
+                    </div>
+                </div>
+
+                <div class="row m-2 ">
+                    <div class="row col-md-2">
+                        <span><b>Precio entrada:</b></span>
+                    </div>
+                    <div class="row col-md-10">
+                        <span>{{=pieza.precio_entrada}}</span>
+                    </div>
+                </div>
+
+                <div class="row m-2">
+                    <div class="row col-md-2">
+                        <span><b>Precio salida:</b></span>
+                    </div>
+                    <div class="row col-md-10">
+                        <span>{{=pieza.precio_salida}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+<div class="card" id="container">
+
+    <div class="card-body">
+
+        <div class="row pad-2">
+            <div class="col-md-12">
+                <h3>Entradas / Ventas</h3>
+                <hr>
+
+                <div class="table-responsive">
+                    <ul class="nav nav-tabs customtab" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home2" role="tab"><span
+                                class="hidden-sm-up"><i class="ti-home"></i></span> <span
+                                class="hidden-xs-down">Entradas</span></a></li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#profile2" role="tab"><span
+                                class="hidden-sm-up"><i class="ti-user"></i></span> <span
+                                class="hidden-xs-down">Ventas</span></a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+
+                        <div class="tab-pane active p-15" id="home2" role="tabpanel">
+                            <div class="table-responsive">
+                            {{if len(pieza_entrada) > 0:}}
+
+                                <table id="tbl_entrada">
+                                    <thead>
+                                    <th>Fecha de entrada</th>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Cantidad entrada</th>
+                                    <th></th>
+                                    </thead>
+                                    <tbody>
+
+                                    {{for row in pieza_entrada:}}
+                                    <tr>
+                                        <td>{{=__format_fecha(row.fecha_entrada)}}</td>
+                                        <td>{{=row.codigo}}</td>
+                                        <td>{{=row.nombre}}</td>
+                                        <td>{{=row.descripcion}}</td>
+                                        <td>{{=row.cantidad}}</td>
+                                        <td>
+                                        {{
+                                            =DIV(A(SPAN("", _class="icon magnifier icon-zoom-in glyphicon glyphicon-zoom-in"),
+                                        _title="Detalles", _href=URL('detalles_entrada', args=[row.id]),
+                                        _class="btn btn-success btn-rounded"),
+                                        A(SPAN("", _class="fa fa-pencil"),
+                                        _title="Editar", _href=URL('editar_entrada', args=[row.id]),
+                                        _class="btn btn-info btn-rounded"),
+                                        A(SPAN("", _class="icon trash icon-trash glyphicon glyphicon-trash"),
+                                        _title="Eliminar", _href="#",
+                                        _onclick="confirmDeleteEntrada(" + str(row.id) + ")",
+                                        _class="btn btn-danger btn-rounded mr-2 delete"),
+                                        _class="btn-inline"
+                                        )
+                                            }}
+                                        </td>
+                                    </tr>
+                                    {{pass}}
+
+                                    </tbody>
+                                    <tfoot>
+                                    <th>Fecha de entrada</th>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Cantidad entrada</th>
+                                    <th></th>
+                                    </tfoot>
+                                </table>
+
+                            {{else:}}
+                                <div class="mt-4 ml-2">
+                                {{="No tiene entradas"}}
+                                </div>{{pass}}
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane p-15" id="profile2" role="tabpanel">
+
+                            <div class="table-responsive">
+                            {{if len(pieza_venta) > 0:}}
+                                <table id="tbl_venta">
+                                    <thead>
+                                    <tr>
+                                        <th>Fecha de venta</th>
+                                        <th>Código</th>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Cantidad vendida</th>
+                                        <th>Monto total</th>
+                                        <th></th>
+                                    </tr>
+
+                                    </thead>
+                                    <tbody>
+
+                                    {{for row in pieza_venta:}}
+                                    <tr>
+                                        <td>{{=__format_fecha(row.venta.fecha_salida)}}</td>
+                                        <td>{{=row.pieza_venta.codigo}}</td>
+                                        <td>{{=row.pieza_venta.nombre}}</td>
+                                        <td>{{=row.pieza_venta.descripcion}}</td>
+                                        <td>{{=row.pieza_venta.cantidad}}</td>
+                                        <td>{{=row.venta.precio_total}}</td>
+                                        <td>
+                                        {{
+                                            =DIV(A(SPAN("", _class="icon magnifier icon-zoom-in glyphicon glyphicon-zoom-in"),
+                                        _title="Detalles", _href=URL('detalles_venta', args=[row.pieza_venta.id]),
+                                        _class="btn btn-success btn-rounded"),
+                                        A(SPAN("", _class="fa fa-pencil"),
+                                        _title="Editar", _href=URL('editar_venta', args=[row.pieza_venta.id]),
+                                        _class="btn btn-info btn-rounded"),
+                                        A(SPAN("", _class="icon trash icon-trash glyphicon glyphicon-trash"),
+                                        _title="Eliminar", _href="#",
+                                        _onclick="confirmDeleteVenta(" + str(row.venta.id) + ")",
+                                        _class="btn btn-danger btn-rounded mr-2 delete"),
+                                        _class="btn-inline"
+                                        )
+                                            }}
+                                        </td>
+                                    </tr>
+                                    {{pass}}
+
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Fecha de venta</th>
+                                        <th>Código</th>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Cantidad vendida</th>
+                                        <th>Monto total</th>
+                                        <th></th>
+                                    </tr>
+
+                                    </tfoot>
+                                </table>
+                            {{else:}}
+                                <div class="mt-4 ml-2">
+                                {{="No tiene ventas"}}
+                                </div>{{pass}}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<div class="card" id="container">
+
+    <div class="card-body">
+
+        <div class="row proveedores">
+            <div class="col-md-12">
+                <h3>Proveedores</h3>
+                <hr>
+                <div class="table-responsive">
+                {{if len(proveedores) > 0:}}
+                    <table id="tbl_prov">
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                        </tr>
+
+                        </thead>
+                        <tbody>
+
+                        {{for row in proveedores:}}
+                        <tr>
+                            <td>{{=row.nombre}}</td>
+                            <td>{{=row.descripcion}}</td>
+                            <td>{{=row.direccion}}</td>
+                            <td>{{=row.telefono}}</td>
+                        </tr>
+                        {{pass}}
+
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                        </tr>
+
+                        </tfoot>
+                    </table>
+                {{else:}}
+                    <div class="mt-4 ml-2">
+                    {{="No tiene proveedores"}}
+                    </div>{{pass}}
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+{{block page_js}}
+<script src="{{=URL('static','vendor/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/dataTables.buttons.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/jszip.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/pdfmake.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/vfs_fonts.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/buttons.html5.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/buttons.colVis.min.js')}}"></script>
+
+<!-- Sweetalert
+============================================ -->
+<script src="{{=URL('static','vendor/layout_ela/js/lib/sweetalert/sweetalert.min.js')}}"></script>
+
+
+<script src="{{=URL('static', 'vendor/datatables_moment/moment.js')}}"></script>
+<script src="{{=URL('static', 'vendor/datatables_moment/moment.dataTables.js')}}"></script>
+
+<script>
+
+    function confirmDeleteEntrada(id) {
+        swal({
+                    title: "¿Está seguro de eliminar?",
+                    text: "La entrada será eliminada completamente del sistema.",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Eliminar",
+                    cancelButtonText: "Cancelar",
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        var url = "{{=URL('eliminar_entrada')}}";
+
+                        swal({
+                                    title: "Eliminada",
+                                    text: "La entrada ha sido eliminada correctamente",
+                                    type: "success",
+                                    showCancelButton: false,
+                                    cancelButtonText: "Cancelar",
+                                    closeOnConfirm: true,
+                                    allowEscapeKey: false,
+                                }
+                                , function () {
+                                    location.href = url + "/" + id;
+                                });
+                    } else {
+                        // event.preventDefault();
+                        //swal("Cancelled !!", "Hey, your imaginary file is safe !!", "error");
+                    }
+                });
+
+
+    }
+
+    function confirmDeleteVenta(id) {
+        swal({
+                    title: "¿Está seguro de eliminar?",
+                    text: "La venta será eliminada completamente del sistema.",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Eliminar",
+                    cancelButtonText: "Cancelar",
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        var url = "{{=URL('eliminar_venta')}}";
+
+                        swal({
+                                    title: "Eliminada",
+                                    text: "La venta ha sido eliminada correctamente",
+                                    type: "success",
+                                    showCancelButton: false,
+                                    cancelButtonText: "Cancelar",
+                                    closeOnConfirm: true,
+                                    allowEscapeKey: false,
+                                }
+                                , function () {
+                                    location.href = url + "/" + id;
+                                });
+                    } else {
+                        // event.preventDefault();
+                        //swal("Cancelled !!", "Hey, your imaginary file is safe !!", "error");
+                    }
+                });
+
+
+    }
+
+    $.fn.dataTable.moment('DD/MM/YYYY');
+
+    $('#tbl_prov').DataTable({
+        dom: 'lfrtiBp',
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: 'Pieza\nCódigo: {{=pieza.codigo}}   Nombre: {{=pieza.nombre}}\n\nListado de proveedores',
+                filename: 'Proveedores',
+                pageSize: 'LETTER',
+                customize: function (doc) {
+                    doc.content[1].table.widths = [
+                        '25%',
+                        '25%',
+                        '25%',
+                        '25%',
+                    ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: 'Listado de proveedores',
+                filename: 'Proveedores',
+            },
+
+        ],
+        language: {
+            "decimal": "",
+            "emptyTable": "{{=T('No hay información')}}",
+            "info": "{{=T('Mostrando _START_ a _END_ de _TOTAL_ Entradas')}}",
+            "infoEmpty": "{{=T('Mostrando 0 to 0 of 0 Entradas')}}",
+            "infoFiltered": "{{=T('(Filtrado de _MAX_ total entradas)')}}",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "{{=T('Mostrar _MENU_ Entradas')}}",
+            "loadingRecords": "{{=T('Cargando...')}}",
+            "processing": "{{=T('Procesando...')}}",
+            "search": "{{=T('Buscar:')}}",
+            "zeroRecords": "{{=T('Sin resultados encontrados')}}",
+            "paginate": {
+                "first": "{{=T('Primero')}}",
+                "last": "{{=T('Último')}}",
+                "next": "{{=T('Siguiente')}}",
+                "previous": "{{=T('Anterior')}}"
+            }
+        }
+
+
+    });
+
+    $('#tbl_entrada').DataTable({
+        dom: 'lfrtip',
+        order:[[0, "desc"]],
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: 'Pieza\nCódigo: {{=pieza.codigo}}   Nombre: {{=pieza.nombre}}\n\nListado de proveedores',
+                filename: 'Proveedores',
+                pageSize: 'LETTER',
+                customize: function (doc) {
+                    doc.content[1].table.widths = [
+                        '25%',
+                        '25%',
+                        '25%',
+                        '25%',
+                    ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: 'Listado de proveedores',
+                filename: 'Proveedores',
+            },
+
+        ],
+        language: {
+            "decimal": "",
+            "emptyTable": "{{=T('No hay información')}}",
+            "info": "{{=T('Mostrando _START_ a _END_ de _TOTAL_ Entradas')}}",
+            "infoEmpty": "{{=T('Mostrando 0 to 0 of 0 Entradas')}}",
+            "infoFiltered": "{{=T('(Filtrado de _MAX_ total entradas)')}}",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "{{=T('Mostrar _MENU_ Entradas')}}",
+            "loadingRecords": "{{=T('Cargando...')}}",
+            "processing": "{{=T('Procesando...')}}",
+            "search": "{{=T('Buscar:')}}",
+            "zeroRecords": "{{=T('Sin resultados encontrados')}}",
+            "paginate": {
+                "first": "{{=T('Primero')}}",
+                "last": "{{=T('Último')}}",
+                "next": "{{=T('Siguiente')}}",
+                "previous": "{{=T('Anterior')}}"
+            }
+        }
+
+
+    });
+
+    $('#tbl_venta').DataTable({
+        dom: 'lfrtip',
+        order:[[0, "desc"]],
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: 'Pieza\nCódigo: {{=pieza.codigo}}   Nombre: {{=pieza.nombre}}\n\nListado de proveedores',
+                filename: 'Proveedores',
+                pageSize: 'LETTER',
+                customize: function (doc) {
+                    doc.content[1].table.widths = [
+                        '25%',
+                        '25%',
+                        '25%',
+                        '25%',
+                    ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: 'Listado de proveedores',
+                filename: 'Proveedores',
+            },
+
+        ],
+        language: {
+            "decimal": "",
+            "emptyTable": "{{=T('No hay información')}}",
+            "info": "{{=T('Mostrando _START_ a _END_ de _TOTAL_ Entradas')}}",
+            "infoEmpty": "{{=T('Mostrando 0 to 0 of 0 Entradas')}}",
+            "infoFiltered": "{{=T('(Filtrado de _MAX_ total entradas)')}}",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "{{=T('Mostrar _MENU_ Entradas')}}",
+            "loadingRecords": "{{=T('Cargando...')}}",
+            "processing": "{{=T('Procesando...')}}",
+            "search": "{{=T('Buscar:')}}",
+            "zeroRecords": "{{=T('Sin resultados encontrados')}}",
+            "paginate": {
+                "first": "{{=T('Primero')}}",
+                "last": "{{=T('Último')}}",
+                "next": "{{=T('Siguiente')}}",
+                "previous": "{{=T('Anterior')}}"
+            }
+        }
+
+
+    });
+
+
+    $('table').addClass('display nowrap table table-hover table-striped table-bordered');
+</script>
+{{end page_js}}

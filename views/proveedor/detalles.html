@@ -1,0 +1,169 @@
+{{extend 'layout_ela.html'}}
+
+{{block header}}
+<style>
+    .detalles {
+        padding-bottom: 20px;
+    }
+
+
+    .piezas {
+        padding: 0px 2px !important;
+    }
+
+    #DataTables_Table_0_wrapper {
+        margin: 15px !important;
+    }
+</style>
+{{end block}}
+
+<div class="mb-3 mt-3">
+    <a class="btn btn-danger" href="{{=URL('proveedor', 'administrar')}}"><i
+            class="ti-arrow-circle-left"></i>{{=T(" Atrás")}}</a>
+</div>
+
+<div class="card" id="container">
+
+
+    <h3>{{=T("Detalles del proveedor")}}</h3>
+    <hr style="margin-top: 0%!important;">
+    <div class="card-body">
+        <div class="row detalles">
+            <div class="col-md-12">
+                <div class="row m-2">
+                    <div class="row col-md-2">
+                        <span><b>Nombre:</b></span>
+                    </div>
+                    <div class="row col-md-10">
+                        <span>{{=proveedor.nombre}}</span>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="row col-md-2">
+                        <span><b>Descripción:</b></span>
+                    </div>
+                    <div class="row col-md-10">
+                        <span>{{=proveedor.descripcion}}</span>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="row col-md-2">
+                        <span><b>Dirección:</b></span>
+                    </div>
+                    <div class="row col-md-10">
+                        <span>{{=proveedor.direccion}}</span>
+                    </div>
+                </div>
+                <div class="row m-2 ">
+                    <div class="row col-md-2">
+                        <span><b>Teléfono:</b></span>
+                    </div>
+                    <div class="row col-md-10">
+                        <span>{{=proveedor.telefono}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+<div class="card" id="container">
+    <div class="card-body">
+        <div class="row piezas">
+            <div class="col-md-12">
+                <h3>Piezas</h3>
+                <hr>
+                <div class="table-responsive">
+                {{=SQLTABLE(piezas, headers={'pieza.id':"Id", 'pieza.codigo':"Código", 'pieza.nombre':"Nombre",
+                'pieza.descripcion':"Descripción", 'pieza.cantidad':"Cantidad",
+                'pieza.unidad':"Unidad", 'pieza.precio_entrada':"Precio entrada",
+                'pieza.precio_salida':"Precio salida", 'pieza.fecha_entrada':"Fecha entrada"})}}
+
+                        {{="No tiene piezas" if len(piezas) == 0 else ""}}
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{{block page_js}}
+<script src="{{=URL('static','vendor/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/dataTables.buttons.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/jszip.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/pdfmake.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/vfs_fonts.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/buttons.html5.min.js')}}"></script>
+<script src="{{=URL('static','vendor/datatables/buttons.colVis.min.js')}}"></script>
+<script>
+    $('table').DataTable({
+
+        dom: 'lfrtiBp',
+        columnDefs: [
+            {
+                "targets": [0],
+                "visible": false,
+                // "searchable": false
+            }
+        ],
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: 'Proveedor\nNombre: {{=proveedor.nombre}}\n\nListado de piezas',
+                filename: 'Piezas',
+                pageSize: 'LETTER',
+                exportOptions: {
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8]
+                },
+                // customize: function (doc) {
+                //     doc.content[1].table.widths = [
+                //         '25%',
+                //         '25%',
+                //         '25%',
+                //         '25%',
+                //     ]
+                // }
+            },
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                title: 'Listado de piezas',
+                filename: 'Piezas',
+                exportOptions: {
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8]
+                },
+            },
+
+        ],
+        language: {
+            "decimal": "",
+            "emptyTable": "{{=T('No hay información')}}",
+            "info": "{{=T('Mostrando _START_ a _END_ de _TOTAL_ Entradas')}}",
+            "infoEmpty": "{{=T('Mostrando 0 to 0 of 0 Entradas')}}",
+            "infoFiltered": "{{=T('(Filtrado de _MAX_ total entradas)')}}",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "{{=T('Mostrar _MENU_ Entradas')}}",
+            "loadingRecords": "{{=T('Cargando...')}}",
+            "processing": "{{=T('Procesando...')}}",
+            "search": "{{=T('Buscar:')}}",
+            "zeroRecords": "{{=T('Sin resultados encontrados')}}",
+            "paginate": {
+                "first": "{{=T('Primero')}}",
+                "last": "{{=T('Último')}}",
+                "next": "{{=T('Siguiente')}}",
+                "previous": "{{=T('Anterior')}}"
+            }
+        }
+
+
+    });
+    $('table').addClass('display nowrap table table-hover table-striped table-bordered');
+</script>
+{{end page_js}}

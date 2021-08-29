@@ -1,0 +1,51 @@
+db.define_table('unidad',
+    Field('tipo', 'string')
+)
+
+db.define_table('pieza', 
+    Field('codigo', 'string'),
+    Field('nombre', 'string'),
+    Field('descripcion', 'text'),
+    Field('cantidad', 'integer'),
+    Field('unidad', 'string'),
+    Field('precio_entrada', 'double'),
+    Field('precio_salida', 'double'),
+    Field('fecha_entrada', 'date')
+)
+
+db.define_table('proveedor',
+    Field('nombre', 'string'),
+    Field('descripcion', 'text'),
+    Field('direccion', 'string'),
+    Field('telefono', 'string')    
+)
+
+db.define_table('pieza_proveedor',
+    Field('id_pieza', 'reference pieza'),
+    Field('id_proveedor', 'reference proveedor'),
+)
+
+db.define_table('pieza_movimiento',
+    Field('codigo', 'string'),
+    Field('nombre', 'string'),
+    Field('descripcion', 'text'),
+    Field('cantidad', 'integer'),
+    Field('unidad', 'string'),
+    Field('precio_entrada', 'double'),
+    Field('precio_salida', 'double'),
+    Field('fecha_entrada', 'date')
+)
+
+db.define_table('proveedor_movimiento',
+    Field('nombre', 'string'),
+    Field('descripcion', 'text'),
+    Field('direccion', 'string'),
+    Field('telefono', 'string'),
+    Field('id_pieza_movimiento', 'reference pieza_movimiento')  
+)
+
+db.define_table('movimiento', 
+    Field('fecha_salida', 'date'),
+    Field('precio_total', 'double'),
+    Field('id_pieza_movimiento', 'reference pieza_movimiento')
+)

@@ -1,0 +1,80 @@
+{{extend 'layout_ela.html'}}
+
+{{block header}}
+<link rel="stylesheet" href="{{=URL('static','vendor/layout_ela/css/lib/sweetalert/sweetalert.css')}}">
+
+<style>
+h2{
+        margin-bottom: 1px!important;
+    }
+</style>
+{{end header}}
+
+<div class="card" id="container">
+   
+    
+    
+    <h3>{{=T("Eliminar base de datos")}}</h3> 
+    <hr style="margin-top: 0%!important;">
+    <div class="card-body">
+        <div class="row detalles">
+            <div class="col-md-12">
+                <div class="row m-2">
+                    <div class="row col-md-10">
+                        <a href="#" class="btn btn-danger" onclick="confirmDelete()"><span class="fa fa-trash"></span> Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+    </div>
+ 
+</div>
+
+{{block page_js}}
+<!-- Sweetalert
+============================================ -->
+<script src="{{=URL('static','vendor/layout_ela/js/lib/sweetalert/sweetalert.min.js')}}"></script>
+
+<script>
+        function confirmDelete(){
+            swal({
+                title: "¿Está seguro de eliminar?",
+                text: "La base de datos será eliminada.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Eliminar",
+                cancelButtonText: "Cancelar",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    var url = "{{=URL('eliminar')}}";
+                    
+                    swal({
+                        title: "Eliminada",
+                        text: "Los datos han sido eliminada correctamente",
+                        type: "success",
+                        showCancelButton: false,
+                        cancelButtonText: "Cancelar",
+                        closeOnConfirm: true,
+                        allowEscapeKey : false,
+                    }
+                    ,function(){
+                        location.href = url + "/" + 1;
+                    });
+                }
+                else {
+                    // event.preventDefault();
+                    //swal("Cancelled !!", "Hey, your imaginary file is safe !!", "error");
+                }
+            });
+    
+    
+        }
+    
+    </script>
+{{end page_js}}

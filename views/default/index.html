@@ -1,0 +1,224 @@
+{{extend 'layout_ela.html'}} {{block header}}
+<link rel="stylesheet" href="{{=URL('static','vendor/chart/styles.css')}}" />
+
+<style>
+  .col-md-4 {
+    margin-bottom: 5px !important;
+  }
+
+  .mano:hover {
+    cursor: pointer;
+  }
+</style>
+{{end header}}
+
+<div class="row mt-3">
+  <div class="col-md-4">
+    <div
+      class="card-box p-3 mano"
+      onclick="urlPieza()"
+      style="border-radius: 10px;background-color: blue; opacity: 50%;"
+    >
+      <a href="{{=URL('pieza','administrar')}}"
+        ><i class="fa fa-gear float-right text-white f-s-60 "></i
+      ></a>
+      <h6 class="text-white text-uppercase m-b-20">Piezas</h6>
+      <h1 class="m-b-20 text-white counter">{{=len(piezas)}}</h1>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div
+      class="card-box p-3 mano"
+      onclick="urlProv()"
+      style="border-radius: 10px;background-color: #1bb2db; opacity: 80%;"
+    >
+      <a href="{{=URL('proveedor','administrar')}}"
+        ><i class="fa fa-users float-right text-white f-s-60 "></i
+      ></a>
+      <h6 class="text-white text-uppercase m-b-20">Proveedores</h6>
+      <h1 class="m-b-20 text-white counter">{{=len(proveedores)}}</h1>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div
+      class="card-box p-3 mano"
+      onclick="urlVenta()"
+      style="border-radius: 10px;background-color: #ef5350;"
+    >
+      <a href="{{=URL('venta','administrar')}}"
+        ><i class="fa fa-file-text-o float-right text-white f-s-60 "></i
+      ></a>
+      <h6 class="text-white text-uppercase m-b-20">
+        Ventas realizadas {{=request.now.year}}
+      </h6>
+      <h1 class="m-b-20 text-white counter">{{=len(ventas)}}</h1>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="container">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <canvas id="canvas"></canvas>
+        <br />
+        <br />
+        <!--
+            <button id="randomizeData" class="btn btn-primary">Generar Datos Aleatorios</button>
+            <button id="addDataset" class="btn btn-primary">Agregar Datos</button>
+            <button id="removeDataset" class="btn btn-primary">Eliminar Datos</button>
+            <button id="addData" class="btn btn-primary">Agregar Mes</button>
+            <button id="removeData" class="btn btn-primary">Eliminar Mes</button>
+            -->
+      </div>
+    </div>
+  </div>
+</div>
+
+{{block page_js}}
+<script>
+  function urlPieza() {
+    location.href = "{{=URL('pieza','administrar')}}";
+  }
+  function urlProv() {
+    location.href = "{{=URL('proveedor','administrar')}}";
+  }
+  function urlVenta() {
+    location.href = "{{=URL('venta','administrar')}}";
+  }
+</script>
+
+<script src="{{=URL('static','vendor/chart/Chart.min.js')}}"></script>
+<script src="{{=URL('static','vendor/chart/utils.js')}}"></script>
+<!-- <script src="{{=URL('static','vendor/chart/configuration.js')}}"></script> -->
+
+<script>
+  var MONTHS = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre"
+  ];
+
+  var randomScalingFactor = function() {
+    return Math.round(Math.random() * 100);
+  };
+
+  var config = {
+    type: "line",
+    data: {
+      labels: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre"
+      ],
+      datasets: [
+        {
+          label: "Entradas",
+          backgroundColor: window.chartColors.blue,
+          borderColor: window.chartColors.blue,
+          data: [
+            parseInt("{{=valores_entradas[0]}}"),
+            parseInt("{{=valores_entradas[1]}}"),
+            parseInt("{{=valores_entradas[2]}}"),
+            parseInt("{{=valores_entradas[3]}}"),
+            parseInt("{{=valores_entradas[4]}}"),
+            parseInt("{{=valores_entradas[5]}}"),
+            parseInt("{{=valores_entradas[6]}}"),
+            parseInt("{{=valores_entradas[7]}}"),
+            parseInt("{{=valores_entradas[8]}}"),
+            parseInt("{{=valores_entradas[9]}}"),
+            parseInt("{{=valores_entradas[10]}}"),
+            parseInt("{{=valores_entradas[11]}}")
+          ],
+          fill: false
+        },
+        {
+          label: "Ventas",
+          backgroundColor: window.chartColors.red,
+          borderColor: window.chartColors.red,
+          data: [
+            parseInt("{{=valores_ventas[0]}}"),
+            parseInt("{{=valores_ventas[1]}}"),
+            parseInt("{{=valores_ventas[2]}}"),
+            parseInt("{{=valores_ventas[3]}}"),
+            parseInt("{{=valores_ventas[4]}}"),
+            parseInt("{{=valores_ventas[5]}}"),
+            parseInt("{{=valores_ventas[6]}}"),
+            parseInt("{{=valores_ventas[7]}}"),
+            parseInt("{{=valores_ventas[8]}}"),
+            parseInt("{{=valores_ventas[9]}}"),
+            parseInt("{{=valores_ventas[10]}}"),
+            parseInt("{{=valores_ventas[11]}}")
+          ],
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      title: {
+        display: true,
+        text: "Estadística Mensual " + "{{=request.now.year}}"
+      },
+      tooltips: {
+        mode: "index",
+        intersect: false
+      },
+      hover: {
+        mode: "nearest",
+        intersect: true
+      },
+      scales: {
+        xAxes: [
+          {
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: "Meses del Año"
+            }
+          }
+        ],
+        yAxes: [
+          {
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: "Valores Alcanzados"
+            },
+            ticks: {
+              min: 0,
+              max: 100,
+
+              // forces step size to be 5 units
+              stepSize: 10
+            }
+          }
+        ]
+      }
+    }
+  };
+
+  window.onload = function() {
+    var ctx = document.getElementById("canvas").getContext("2d");
+    window.myLine = new Chart(ctx, config);
+  };
+</script>
+{{end page_js}}

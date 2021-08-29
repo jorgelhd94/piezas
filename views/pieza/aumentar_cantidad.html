@@ -1,0 +1,35 @@
+{{extend 'layout_ela.html'}}
+
+{{block header}}
+<style>
+
+.form-control-label{
+    margin-top: 8px;
+}
+
+.alt{
+    margin-top: 20px !important;
+}
+</style>
+{{end block}}
+
+<div class="card" id="container">
+        
+        
+        
+        <h3>{{=T("Aumento de piezas en existencia")}}</h3> 
+        <hr style="margin-top: 1%!important;">
+        <div class="card-body">
+            <div class="row proveedores">
+                <div class="col-md-12">                    
+                    <h3>Cantidad Actual: <span>{{=cantidad_real}}</span></h3>
+                    <br>
+                    <div class="table-responsive col-md-5">
+                       {{=form}}
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+     
+</div>

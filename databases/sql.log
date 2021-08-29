@@ -1,0 +1,1425 @@
+timestamp: 2019-11-18T12:04:49.638000
+CREATE TABLE "auth_user"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "first_name" CHAR(128),
+    "last_name" CHAR(128),
+    "email" CHAR(512),
+    "password" CHAR(512),
+    "registration_key" CHAR(512),
+    "reset_password_key" CHAR(512),
+    "registration_id" CHAR(512)
+);
+success!
+timestamp: 2019-11-18T12:04:49.796000
+CREATE TABLE "auth_group"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "role" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2019-11-18T12:04:50.075000
+CREATE TABLE "auth_membership"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-11-18T12:04:50.284000
+CREATE TABLE "auth_permission"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
+    "name" CHAR(512),
+    "table_name" CHAR(512),
+    "record_id" INTEGER
+);
+success!
+timestamp: 2019-11-18T12:04:50.369000
+CREATE TABLE "auth_event"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "time_stamp" TIMESTAMP,
+    "client_ip" CHAR(512),
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "origin" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2019-11-18T12:04:50.638000
+CREATE TABLE "auth_cas"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "created_on" TIMESTAMP,
+    "service" CHAR(512),
+    "ticket" CHAR(512),
+    "renew" CHAR(1)
+);
+success!
+timestamp: 2019-11-18T12:04:50.816000
+CREATE TABLE "pieza"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "codigo" CHAR(512),
+    "nombre" CHAR(512),
+    "descripcion" TEXT,
+    "cantidad" INTEGER,
+    "unidad" INTEGER,
+    "precio_entrada" DOUBLE,
+    "precio_salida" DOUBLE,
+    "fecha_entrada" DATE
+);
+success!
+timestamp: 2019-11-18T12:04:50.937000
+CREATE TABLE "proveedor"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "descripcion" TEXT,
+    "direccion" CHAR(512),
+    "telefono" CHAR(512)
+);
+success!
+timestamp: 2019-11-18T12:04:51.050000
+CREATE TABLE "pieza_proveedor"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id_pieza" INTEGER REFERENCES "pieza" ("id") ON DELETE CASCADE  ,
+    "id_proveedor" INTEGER REFERENCES "proveedor" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-11-18T12:04:51.109000
+CREATE TABLE "pieza_venta"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "codigo" CHAR(512),
+    "nombre" CHAR(512),
+    "descripcion" TEXT,
+    "cantidad" INTEGER,
+    "unidad" CHAR(512),
+    "precio_entrada" DOUBLE,
+    "precio_salida" DOUBLE,
+    "fecha_entrada" DATE
+);
+success!
+timestamp: 2019-11-18T12:04:51.204000
+CREATE TABLE "proveedor_venta"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "descripcion" TEXT,
+    "direccion" CHAR(512),
+    "telefono" CHAR(512),
+    "id_pieza_venta" INTEGER REFERENCES "pieza_venta" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-11-18T12:04:51.338000
+CREATE TABLE "venta"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "fecha_salida" DATE,
+    "precio_total" DOUBLE,
+    "id_pieza_venta" INTEGER REFERENCES "pieza_venta" ("id") ON DELETE CASCADE  
+);
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza_proveedor";
+DELETE FROM sqlite_sequence WHERE name='pieza_proveedor'
+success!
+DELETE FROM "pieza_venta";
+DELETE FROM sqlite_sequence WHERE name='pieza_venta'
+success!
+DELETE FROM "proveedor_venta";
+DELETE FROM sqlite_sequence WHERE name='proveedor_venta'
+success!
+DELETE FROM "venta";
+DELETE FROM sqlite_sequence WHERE name='venta'
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza_proveedor";
+DELETE FROM sqlite_sequence WHERE name='pieza_proveedor'
+success!
+DELETE FROM "pieza_venta";
+DELETE FROM sqlite_sequence WHERE name='pieza_venta'
+success!
+DELETE FROM "proveedor_venta";
+DELETE FROM sqlite_sequence WHERE name='proveedor_venta'
+success!
+DELETE FROM "venta";
+DELETE FROM sqlite_sequence WHERE name='venta'
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza_proveedor";
+DELETE FROM sqlite_sequence WHERE name='pieza_proveedor'
+success!
+DELETE FROM "pieza_venta";
+DELETE FROM sqlite_sequence WHERE name='pieza_venta'
+success!
+DELETE FROM "proveedor_venta";
+DELETE FROM sqlite_sequence WHERE name='proveedor_venta'
+success!
+DELETE FROM "venta";
+DELETE FROM sqlite_sequence WHERE name='venta'
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza_proveedor";
+DELETE FROM sqlite_sequence WHERE name='pieza_proveedor'
+success!
+DELETE FROM "pieza_venta";
+DELETE FROM sqlite_sequence WHERE name='pieza_venta'
+success!
+DELETE FROM "proveedor_venta";
+DELETE FROM sqlite_sequence WHERE name='proveedor_venta'
+success!
+DELETE FROM "venta";
+DELETE FROM sqlite_sequence WHERE name='venta'
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza_proveedor";
+DELETE FROM sqlite_sequence WHERE name='pieza_proveedor'
+success!
+DELETE FROM "pieza_venta";
+DELETE FROM sqlite_sequence WHERE name='pieza_venta'
+success!
+DELETE FROM "proveedor_venta";
+DELETE FROM sqlite_sequence WHERE name='proveedor_venta'
+success!
+DELETE FROM "venta";
+DELETE FROM sqlite_sequence WHERE name='venta'
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza_proveedor";
+DELETE FROM sqlite_sequence WHERE name='pieza_proveedor'
+success!
+DELETE FROM "pieza_venta";
+DELETE FROM sqlite_sequence WHERE name='pieza_venta'
+success!
+DELETE FROM "proveedor_venta";
+DELETE FROM sqlite_sequence WHERE name='proveedor_venta'
+success!
+DELETE FROM "venta";
+DELETE FROM sqlite_sequence WHERE name='venta'
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza_proveedor";
+DELETE FROM sqlite_sequence WHERE name='pieza_proveedor'
+success!
+DELETE FROM "pieza_venta";
+DELETE FROM sqlite_sequence WHERE name='pieza_venta'
+success!
+DELETE FROM "proveedor_venta";
+DELETE FROM sqlite_sequence WHERE name='proveedor_venta'
+success!
+DELETE FROM "venta";
+DELETE FROM sqlite_sequence WHERE name='venta'
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza_proveedor";
+DELETE FROM sqlite_sequence WHERE name='pieza_proveedor'
+success!
+DELETE FROM "pieza_venta";
+DELETE FROM sqlite_sequence WHERE name='pieza_venta'
+success!
+DELETE FROM "proveedor_venta";
+DELETE FROM sqlite_sequence WHERE name='proveedor_venta'
+success!
+DELETE FROM "venta";
+DELETE FROM sqlite_sequence WHERE name='venta'
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza_proveedor";
+DELETE FROM sqlite_sequence WHERE name='pieza_proveedor'
+success!
+DELETE FROM "pieza_venta";
+DELETE FROM sqlite_sequence WHERE name='pieza_venta'
+success!
+DELETE FROM "proveedor_venta";
+DELETE FROM sqlite_sequence WHERE name='proveedor_venta'
+success!
+DELETE FROM "venta";
+DELETE FROM sqlite_sequence WHERE name='venta'
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza_proveedor";
+DELETE FROM sqlite_sequence WHERE name='pieza_proveedor'
+success!
+DELETE FROM "pieza_venta";
+DELETE FROM sqlite_sequence WHERE name='pieza_venta'
+success!
+DELETE FROM "proveedor_venta";
+DELETE FROM sqlite_sequence WHERE name='proveedor_venta'
+success!
+DELETE FROM "venta";
+DELETE FROM sqlite_sequence WHERE name='venta'
+success!
+timestamp: 2020-02-28T14:38:59.838000
+CREATE TABLE "pieza_entrada"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "codigo" CHAR(512),
+    "nombre" CHAR(512),
+    "descripcion" TEXT,
+    "cantidad" INTEGER,
+    "unidad" CHAR(512),
+    "precio_entrada" DOUBLE,
+    "precio_salida" DOUBLE,
+    "fecha_entrada" DATE
+);
+success!
+timestamp: 2020-02-28T14:38:59.962000
+CREATE TABLE "proveedor_entrada"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "descripcion" TEXT,
+    "direccion" CHAR(512),
+    "telefono" CHAR(512),
+    "id_pieza_venta" INTEGER REFERENCES "pieza_venta" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-02-28T14:41:27.822000
+ALTER TABLE "proveedor_entrada" ADD "id_pieza_entrada" INTEGER REFERENCES "pieza_entrada" ("id") ON DELETE CASCADE  ;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza_proveedor";
+DELETE FROM sqlite_sequence WHERE name='pieza_proveedor'
+success!
+DELETE FROM "pieza_venta";
+DELETE FROM sqlite_sequence WHERE name='pieza_venta'
+success!
+DELETE FROM "proveedor_venta";
+DELETE FROM sqlite_sequence WHERE name='proveedor_venta'
+success!
+DELETE FROM "venta";
+DELETE FROM sqlite_sequence WHERE name='venta'
+success!
+DELETE FROM "pieza_entrada";
+DELETE FROM sqlite_sequence WHERE name='pieza_entrada'
+success!
+DELETE FROM "proveedor_entrada";
+DELETE FROM sqlite_sequence WHERE name='proveedor_entrada'
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+DELETE FROM "pieza_entrada";
+DELETE FROM sqlite_sequence WHERE name='pieza_entrada'
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+DELETE FROM "pieza_entrada";
+DELETE FROM sqlite_sequence WHERE name='pieza_entrada'
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!

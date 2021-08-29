@@ -1,0 +1,233 @@
+{{extend 'layout_ela.html'}} {{block header}}
+<link rel="stylesheet" href="{{=URL('static','vendor/chart/styles.css')}}"/>
+
+<style>
+    .detalles {
+        padding-bottom: 20px;
+    }
+
+    .proveedores {
+        padding: 0px 2px !important;
+    }
+
+    h3 {
+        margin-bottom: 3px !important;
+    }
+
+    form {
+        display: inline-flex !important;
+    }
+
+    /* input[type=submit]{
+      margin-left: 2px;
+  } */
+</style>
+{{end block}}
+
+<div class="card" id="container">
+    <h3>{{=T("Estadística general")}}</h3>
+    <hr style="margin-top: 0%!important;"/>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+
+                <h3>Seleccionar año</h3>
+                <br/>
+                <div class="col-md-5">
+                {{=form}}
+                </div>
+
+                <!--canvas id="canvas"></canvas-->
+
+            {{if sum(valores_entradas) + sum(valores_ventas) != 0:}}
+                <div
+                        id="chart"
+                        style="min-width: 310px; height: 400px; margin: 0 auto"
+                ></div>
+            {{else:}}
+                <div class="col-md-12 mt-5 mb-5 p-4" style="text-align: center;">
+                    <h2>No existen ventas ni entradas en el año {{=year}}</h2>
+                </div>
+            {{pass}}
+            </div>
+        </div>
+    </div>
+</div>
+{{block page_js}}
+<script src="{{=URL('static','vendor/highchart/highcharts.js')}}"></script>
+<script src="{{=URL('static','vendor/highchart/series-label.js')}}"></script>
+<script src="{{=URL('static','vendor/highchart/exporting.js')}}"></script>
+<script src="{{=URL('static','vendor/highchart/offline-exporting.js')}}"></script>
+<script src="{{=URL('static','vendor/highchart/export-data.js')}}"></script>
+
+<script src="{{=URL('static','vendor/highchart/data.js')}}"></script>
+<script src="{{=URL('static','vendor/highchart/drilldown.js')}}"></script>
+<!-- <script src="{{=URL('static','vendor/chart/configuration.js')}}"></script> -->
+
+<script>
+    let meses = [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre"
+    ];
+
+    let entradas = [];
+    let ventas = [];
+
+    let entradasY = [];
+    let ventasY = [];
+
+    /*
+    Configuracion de variables python
+{{contador = 0}}
+*/
+
+    //{{for i in range(12):}}
+    entradasY.push(parseInt("{{=valores_entradas[i]}}"));
+    ventasY.push(parseInt("{{=valores_ventas[i]}}"));
+    //{{pass}}
+
+
+
+    for (let index = 0; index < meses.length; index++) {
+        entradas.push({
+            name: meses[index],
+            y: entradasY[index],
+            drilldown: meses[index] + "Entradas"
+        });
+
+        ventas.push({
+            name: meses[index],
+            y: ventasY[index],
+            drilldown: meses[index] + "Ventas"
+        });
+    }
+
+
+    /*------Manejar Drilldown----------*/
+
+    //Entradas
+
+    let drilldownEntradasVentas = []
+
+    //{{for mesEntrada in sorted(mesesEntradas):}}
+
+    drilldownEntradasVentas.push({
+        name: "{{=meses[mesEntrada - 1]}}",
+        id: "{{=meses[mesEntrada - 1]}}Entradas",
+        data: [
+            //{{for dia in sorted(mesesEntradas[mesEntrada]):}}
+            ["{{=dia}} de {{=meses[mesEntrada - 1]}}", parseInt("{{=mesesEntradas[mesEntrada][dia]}}")],
+            //{{pass}}
+        ]
+    });
+
+    //{{pass}}
+
+    // Ventas
+
+    //{{for mesVenta in sorted(mesesVentas):}}
+
+    drilldownEntradasVentas.push({
+        name: "{{=meses[mesVenta - 1]}}",
+        id: "{{=meses[mesVenta - 1]}}Ventas",
+        data: [
+            //{{for dia in sorted(mesesVentas[mesVenta]):}}
+            ["{{=dia}} de {{=meses[mesVenta - 1]}}", parseInt("{{=mesesVentas[mesVenta][dia]}}")],
+            //{{pass}}
+        ]
+    });
+
+    //{{pass}}
+
+    /*-----------------*/
+
+
+    Highcharts.chart("chart", {
+        chart: {
+            type: "line"
+        },
+        title: {
+            text: "Entradas y Ventas de Piezas, {{=year}}"
+        },
+        // subtitle: {
+        //   text: "Source: thesolarfoundation.com"
+        // },
+        xAxis: {
+            type: "category"
+        },
+
+        yAxis: {
+            title: {
+                text: "Valores alcanzados"
+            }
+        },
+        legend: {
+            layout: "vertical",
+            align: "right",
+            verticalAlign: "middle"
+        },
+
+        plotOptions: {
+            //   series: {
+            //     label: {
+            //       connectorAllowed: false
+            //     },
+            //     pointStart: 2010
+            //   }
+            line: {
+                dataLabels: {
+                    enabled: false
+                },
+                enableMouseTracking: true
+            }
+        },
+
+        series: [
+            {
+                name: "Entradas",
+                data: entradas,
+            },
+            {
+                name: "Ventas",
+                data: ventas,
+                color: "red"
+            }
+            //   {
+            //     name: "Sales & Distribution",
+            //     data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+            //   },
+        ],
+
+        drilldown: {
+            series: drilldownEntradasVentas
+        },
+
+        responsive: {
+            rules: [
+                {
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: "horizontal",
+                            align: "center",
+                            verticalAlign: "bottom"
+                        }
+                    }
+                }
+            ]
+        }
+    });
+</script>
+{{end page_js}}

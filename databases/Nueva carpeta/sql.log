@@ -1,0 +1,222 @@
+timestamp: 2019-09-18T23:44:53.744000
+CREATE TABLE "auth_user"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "first_name" CHAR(128),
+    "last_name" CHAR(128),
+    "email" CHAR(512),
+    "password" CHAR(512),
+    "registration_key" CHAR(512),
+    "reset_password_key" CHAR(512),
+    "registration_id" CHAR(512)
+);
+success!
+timestamp: 2019-09-18T23:44:53.849000
+CREATE TABLE "auth_group"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "role" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2019-09-18T23:44:53.959000
+CREATE TABLE "auth_membership"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-09-18T23:44:54.077000
+CREATE TABLE "auth_permission"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
+    "name" CHAR(512),
+    "table_name" CHAR(512),
+    "record_id" INTEGER
+);
+success!
+timestamp: 2019-09-18T23:44:54.273000
+CREATE TABLE "auth_event"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "time_stamp" TIMESTAMP,
+    "client_ip" CHAR(512),
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "origin" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2019-09-18T23:44:54.387000
+CREATE TABLE "auth_cas"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "created_on" TIMESTAMP,
+    "service" CHAR(512),
+    "ticket" CHAR(512),
+    "renew" CHAR(1)
+);
+success!
+timestamp: 2019-09-18T23:44:54.449000
+CREATE TABLE "unidad"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "tipo" CHAR(512)
+);
+success!
+timestamp: 2019-09-18T23:44:54.561000
+CREATE TABLE "pieza"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "codigo" CHAR(512),
+    "nombre" CHAR(512),
+    "descripcion" TEXT,
+    "cantidad" INTEGER,
+    "unidad" CHAR(512),
+    "precio_entrada" DOUBLE,
+    "precio_salida" DOUBLE,
+    "fecha_entrada" DATE
+);
+success!
+timestamp: 2019-09-18T23:44:54.626000
+CREATE TABLE "proveedor"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "descripcion" TEXT,
+    "direccion" CHAR(512),
+    "telefono" CHAR(512)
+);
+success!
+timestamp: 2019-09-18T23:44:54.690000
+CREATE TABLE "pieza_proveedor"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id_pieza" INTEGER REFERENCES "pieza" ("id") ON DELETE CASCADE  ,
+    "id_proveedor" INTEGER REFERENCES "proveedor" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-09-18T23:44:54.744000
+CREATE TABLE "pieza_movimiento"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "codigo" CHAR(512),
+    "nombre" CHAR(512),
+    "descripcion" TEXT,
+    "cantidad" INTEGER,
+    "unidad" CHAR(512),
+    "precio_entrada" DOUBLE,
+    "precio_salida" DOUBLE,
+    "fecha_entrada" DATE
+);
+success!
+timestamp: 2019-09-18T23:44:54.827000
+CREATE TABLE "proveedor_movimiento"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "descripcion" TEXT,
+    "direccion" CHAR(512),
+    "telefono" CHAR(512),
+    "id_pieza_movimiento" INTEGER REFERENCES "pieza_movimiento" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-09-18T23:44:54.930000
+CREATE TABLE "movimiento"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "fecha_salida" DATE,
+    "precio_total" DOUBLE,
+    "id_pieza_movimiento" INTEGER REFERENCES "pieza_movimiento" ("id") ON DELETE CASCADE  
+);
+success!
+DELETE FROM "unidad";
+DELETE FROM sqlite_sequence WHERE name='unidad'
+success!
+DELETE FROM "unidad";
+DELETE FROM sqlite_sequence WHERE name='unidad'
+success!
+DELETE FROM "unidad";
+DELETE FROM sqlite_sequence WHERE name='unidad'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza_proveedor";
+DELETE FROM sqlite_sequence WHERE name='pieza_proveedor'
+success!
+DELETE FROM "pieza_movimiento";
+DELETE FROM sqlite_sequence WHERE name='pieza_movimiento'
+success!
+DELETE FROM "proveedor_movimiento";
+DELETE FROM sqlite_sequence WHERE name='proveedor_movimiento'
+success!
+DELETE FROM "movimiento";
+DELETE FROM sqlite_sequence WHERE name='movimiento'
+success!
+DELETE FROM "pieza";
+DELETE FROM sqlite_sequence WHERE name='pieza'
+success!
+DELETE FROM "proveedor";
+DELETE FROM sqlite_sequence WHERE name='proveedor'
+success!
+DELETE FROM "pieza_proveedor";
+DELETE FROM sqlite_sequence WHERE name='pieza_proveedor'
+success!
+DELETE FROM "pieza_movimiento";
+DELETE FROM sqlite_sequence WHERE name='pieza_movimiento'
+success!
+DELETE FROM "proveedor_movimiento";
+DELETE FROM sqlite_sequence WHERE name='proveedor_movimiento'
+success!
+DELETE FROM "movimiento";
+DELETE FROM sqlite_sequence WHERE name='movimiento'
+success!
+timestamp: 2019-11-15T08:45:38.517000
+CREATE TABLE "pieza_venta"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "codigo" CHAR(512),
+    "nombre" CHAR(512),
+    "descripcion" TEXT,
+    "cantidad" INTEGER,
+    "unidad" CHAR(512),
+    "precio_entrada" DOUBLE,
+    "precio_salida" DOUBLE,
+    "fecha_entrada" DATE
+);
+success!
+timestamp: 2019-11-15T08:45:39.047000
+CREATE TABLE "proveedor_venta"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "descripcion" TEXT,
+    "direccion" CHAR(512),
+    "telefono" CHAR(512),
+    "id_pieza_venta" INTEGER REFERENCES "pieza_venta" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-11-15T08:45:39.302000
+CREATE TABLE "venta"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "fecha_salida" DATE,
+    "precio_total" DOUBLE,
+    "id_pieza_venta" INTEGER REFERENCES "pieza_venta" ("id") ON DELETE CASCADE  
+);
+success!
+success!

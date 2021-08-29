@@ -1,0 +1,101 @@
+<?extend 'layout_ela_vue.html'?>
+<?block header?>
+<style>
+    h2 {
+        margin-bottom: 2px;
+    }
+</style>
+<?end header?>
+
+<div class="card" id="container">
+
+    <h2><?=T("Venta de piezas")?></h2>
+    <hr>
+
+    <div class="card-body">
+        <a class="btn btn-primary" href="<?=URL('venta', 'administrar')?>"><span
+                class="fa fa-money"></span> <?=T("Administrar ventas")?></a>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <?if existencia:?>
+                <h3>Seleccione la pieza a vender</h3>
+                <?=grid?>
+
+                <?else:?>
+                <h3>Las piezas se han agotado.</h3>
+
+                <?pass?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?block page_js?>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/datatables.min.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/datatables-init.js')?>"></script>
+
+
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js')?>"></script>
+<script src="<?=URL('static','vendor/layout_ela/js/lib/datatables/datatables-init.js')?>"></script>
+
+<script src="<?=URL('static', 'vendor/datatables_moment/moment.js')?>"></script>
+<script src="<?=URL('static', 'vendor/datatables_moment/moment.dataTables.js')?>"></script>
+
+
+<script>
+    $.fn.dataTable.moment('DD/MM/YYYY');
+    
+    $('table').DataTable({
+
+        dom: 'lfrtip',
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                text: 'Generar reporte PDF',
+                title: 'Listado de áreas',
+                filename: 'Areas',
+                pageSize: 'LETTER',
+                exportOptions: {
+                    columns: [0, 1]
+                },
+                customize: function (doc) {
+                    doc.content[1].table.widths = [
+                        '50%',
+                        '50%'
+                    ]
+                }
+            }
+        ],
+        language: {
+            "decimal": "",
+            "emptyTable": "<?=T('No hay información')?>",
+            "info": "<?=T('Mostrando _START_ a _END_ de _TOTAL_ Entradas')?>",
+            "infoEmpty": "<?=T('Mostrando 0 to 0 of 0 Entradas')?>",
+            "infoFiltered": "<?=T('(Filtrado de _MAX_ total entradas)')?>",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "<?=T('Mostrar _MENU_ Entradas')?>",
+            "loadingRecords": "<?=T('Cargando...')?>",
+            "processing": "<?=T('Procesando...')?>",
+            "search": "<?=T('Buscar:')?>",
+            "zeroRecords": "<?=T('Sin resultados encontrados')?>",
+            "paginate": {
+                "first": "<?=T('Primero')?>",
+                "last": "<?=T('Último')?>",
+                "next": "<?=T('Siguiente')?>",
+                "previous": "<?=T('Anterior')?>"
+            }
+        }
+
+
+    });
+    $('table').addClass('display nowrap table table-hover table-striped table-bordered');
+</script>
+<?end page_js?>
