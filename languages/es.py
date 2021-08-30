@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 {
 ' Atrás': ' Atrás',
+' por FullCode.': ' por FullCode.',
 ' por PremiumCode.': ' por PremiumCode.',
 ' por SupremoCode.': ' por SupremoCode.',
 ' por XCode': ' por XCode',
